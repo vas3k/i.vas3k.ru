@@ -1,0 +1,4 @@
+flask==0.10.1
+Pillow==3.0.0
+jinja2==2.8
+psycopg2==2.6.1
