@@ -1,5 +1,6 @@
 import io
 import sys
+import json
 import logging
 from mimetypes import guess_type
 
@@ -89,10 +90,11 @@ def upload():
     if nojson:
         return redirect("{}/meta/{}".format(BASE_URI, image_name))
     else:
-        return '{"url": "{base_uri}/{image_name}", "name": "{image_name}"}'.format(
-            base_uri=BASE_URI,
-            image_name=image_name
-        )
+        print(BASE_URI, image_name)
+        return json.dumps({
+            "url": "{}/{}".format(BASE_URI, image_name),
+            "name": image_name
+        })
 
 
 @app.route("/<filename>", methods=["GET"])
