@@ -12,8 +12,176 @@
     <meta name="twitter:image" content="{{ image }}" />
     <meta name="twitter:image:src" content="{{ image }}" />
 </head>
+<style>
+    body {
+        font-family: Helvetica, Arial, sans-serif;
+    }
+
+    textarea {
+        width: 200px;
+        height: 120px;
+    }
+
+    .examples {
+        text-align: center;
+        padding: 50px;
+        overflow: hidden;
+    }
+
+    .example {
+        width: 300px;
+        float: left;
+        margin-bottom: 50px;
+    }
+</style>
 <body>
-    <img src="{{ image }}">
+    <div style="font-size: 32px; text-align: center; padding: 50px;">
+        <a href="{{ image }}" style="margin-right: 40px;">{{ image }}</a>
+        <a href="{{ image_full }}" style="margin-left: 40px;">{{ image_full }}</a>
+    </div>
+
+    <div class="examples">
+        <div class="example">
+            Прост<br>
+            <textarea>
+<figure>
+    <a href="{{ image_full }}"><img src="{{ image }}"></a>
+    <figcaption></figcaption>
+</figure>
+            </textarea>
+        </div>
+
+        <div class="example">
+            По ширине текста<br>
+            <textarea>
+<div class="block-media block-media__body">
+    <figure>
+        <a href="{{ image_full }}"><img src="{{ image }}"></a>
+        <figcaption></figcaption>
+    </figure>
+</div>
+            </textarea>
+        </div>
+
+        <div class="example">
+            По ширине экрана<br>
+            <textarea>
+<div class="block-media block-media__full">
+    <figure>
+        <a href="{{ image_full }}"><img src="{{ image }}"></a>
+        <figcaption></figcaption>
+    </figure>
+</div>
+            </textarea>
+        </div>
+
+        <div class="example">
+            Сайдбар справа<br>
+            <textarea>
+<div class="widget-side widget-side__right">
+    <figure>
+        <a href="{{ image_full }}"><img src="{{ image }}"></a>
+        <figcaption></figcaption>
+    </figure>
+</div>
+            </textarea>
+        </div>
+
+        <div class="example">
+            Сайдбар слева<br>
+            <textarea>
+<div class="widget-side widget-side__left">
+    <figure>
+        <a href="{{ image_full }}"><img src="{{ image }}"></a>
+        <figcaption></figcaption>
+    </figure>
+</div>
+            </textarea>
+        </div>
+
+        <div class="example">
+            В тексте справа<br>
+            <textarea>
+<div class="widget-image widget-image__right">
+    <figure>
+        <a href="{{ image_full }}"><img src="{{ image }}"></a>
+        <figcaption></figcaption>
+    </figure>
+</div>
+            </textarea>
+        </div>
+
+        <div class="example">
+            2 по ширине текста<br>
+            <textarea>
+<div class="block-media block-media__2">
+    <figure>
+        <a href="{{ image_full }}"><img src="{{ image }}"></a>
+        <figcaption></figcaption>
+    </figure>
+</div>
+            </textarea>
+        </div>
+
+        <div class="example">
+            3 по ширине экрана<br>
+            <textarea>
+<div class="block-media block-media__3-full">
+    <figure>
+        <a href="{{ image_full }}"><img src="{{ image }}"></a>
+        <figcaption></figcaption>
+    </figure>
+</div>
+            </textarea>
+        </div>
+
+        <div class="example">
+            4 по ширине текста<br>
+            <textarea>
+<div class="block-media block-media__4">
+    <figure>
+        <a href="{{ image_full }}"><img src="{{ image }}"></a>
+        <figcaption></figcaption>
+    </figure>
+</div>
+            </textarea>
+        </div>
+
+        <div class="example">
+            Фоном, fixed, cover<br>
+            <textarea>
+<div class="block-text">
+	<div class="block-text__background" style="background-image: url('{{ image_full }}');">
+
+    </div>
+</div>
+            </textarea>
+        </div>
+
+        <div class="example">
+            Фоном, scroll, right<br>
+            <textarea>
+<div class="block-text" style="background-image: url('{{ image_full }}'); background-repeat: no-repeat; background-position: 95% 0; background-size: 30%;">
+
+</div>
+            </textarea>
+        </div>
+
+        <div class="example">
+            Фоном, fixed, bottom-right<br>
+            <textarea>
+<div class="block-text">
+	<div class="block-text__background" style="background-color: #FFF; background-image: url('{{ image_full }}'); background-size: 200px; background-repeat: no-repeat; background-position: right bottom;">
+
+    </div>
+</div>
+            </textarea>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <img src="{{ image }}">
+    </div>
 </body>
 </html>
 

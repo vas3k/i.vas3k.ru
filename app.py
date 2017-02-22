@@ -87,7 +87,7 @@ def upload():
 
     nojson = request.form.get("nojson")
     if nojson:
-        return redirect("{}/{}".format(BASE_URI, image_name))
+        return redirect("{}/meta/{}".format(BASE_URI, image_name))
     else:
         return '{"url": "{base_uri}/{image_name}", "name": "{image_name}"}'.format(
             base_uri=BASE_URI,
@@ -97,15 +97,21 @@ def upload():
 
 @app.route("/<filename>", methods=["GET"])
 def common_image(filename):
-    useragent = request.headers.get('User-Agent')
-    if "Facebot" in useragent or "Twitterbot" in useragent:
-        return render_template("meta.html", image="{}/800/{}".format(BASE_URI, filename))
     return fit_image(COMMON_IMAGE_LENGTH, filename)
 
 
 @app.route("/full/<filename>", methods=["GET"])
 def full_image(filename):
     return x_accel_response("/images/max/{}".format(file_path(filename)))
+
+
+@app.route("/meta/<filename>", methods=["GET"])
+def meta_image(filename):
+    return render_template(
+        "meta.html",
+        image="{}/{}".format(BASE_URI, filename),
+        image_full="{}/full/{}".format(BASE_URI, filename)
+    )
 
 
 @app.route("/<int(min=50,max=2000):max_length>/<filename>", methods=["GET"])
