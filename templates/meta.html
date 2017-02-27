@@ -78,7 +78,7 @@
         <div class="example">
             Сайдбар справа<br>
             <textarea>
-<div class="widget-side widget-side__right">
+<div class="block-side block-side__right">
     <figure>
         <a href="{{ image_full }}"><img src="{{ image }}"></a>
         <figcaption></figcaption>
@@ -90,7 +90,7 @@
         <div class="example">
             Сайдбар слева<br>
             <textarea>
-<div class="widget-side widget-side__left">
+<div class="block-side block-side__left">
     <figure>
         <a href="{{ image_full }}"><img src="{{ image }}"></a>
         <figcaption></figcaption>
@@ -102,7 +102,7 @@
         <div class="example">
             В тексте справа<br>
             <textarea>
-<div class="widget-image widget-image__right">
+<div class="block-media block-media__right">
     <figure>
         <a href="{{ image_full }}"><img src="{{ image }}"></a>
         <figcaption></figcaption>
@@ -150,8 +150,8 @@
         <div class="example">
             Фоном, fixed, cover<br>
             <textarea>
-<div class="block-text">
-	<div class="block-text__background" style="background-image: url('{{ image_full }}');">
+<div class="block-background" style="background-image: url('{{ image_full }}');">
+	<div class="block-text">
 
     </div>
 </div>
@@ -161,8 +161,10 @@
         <div class="example">
             Фоном, scroll, right<br>
             <textarea>
-<div class="block-text" style="background-image: url('{{ image_full }}'); background-repeat: no-repeat; background-position: 95% 0; background-size: 30%;">
+<div class="block-background" style="background-image: url('{{ image_full }}'); background-repeat: no-repeat; background-position: 95% 0; background-size: 30%;">
+	<div class="block-text">
 
+    </div>
 </div>
             </textarea>
         </div>
@@ -170,8 +172,8 @@
         <div class="example">
             Фоном, fixed, bottom-right<br>
             <textarea>
-<div class="block-text">
-	<div class="block-text__background" style="background-color: #FFF; background-image: url('{{ image_full }}'); background-size: 200px; background-repeat: no-repeat; background-position: right bottom;">
+<div class="block-background" style="background-color: #FFF; background-image: url('{{ image_full }}'); background-size: 200px; background-repeat: no-repeat; background-position: right bottom;">
+	<div class="block-text">
 
     </div>
 </div>
