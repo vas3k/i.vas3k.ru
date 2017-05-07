@@ -23,7 +23,7 @@ ID_FILE_PATH = os.path.join(INFO_FILE_PATH, "last_image_id.txt")
 FILE_TREE_SPLIT_N = 2
 
 # максимальная длина широкой части изображения, сохраняемого как оригинал
-ORIGINAL_MAX_IMAGE_LENGTH = 2500
+ORIGINAL_MAX_IMAGE_LENGTH = 10000
 
 # длина широкой стороны изображения, возвращаемого по запросу без параметров
 COMMON_IMAGE_LENGTH = 1200
