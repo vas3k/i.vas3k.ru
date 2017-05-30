@@ -26,7 +26,7 @@ FILE_TREE_SPLIT_N = 2
 ORIGINAL_MAX_IMAGE_LENGTH = 10000
 
 # длина широкой стороны изображения, возвращаемого по запросу без параметров
-COMMON_IMAGE_LENGTH = 1200
+COMMON_IMAGE_LENGTH = 1600
 
 # длина широкой стороны изображения, выдаваемого в списке на главной
 LIST_IMAGE_LENGTH = 480
@@ -35,7 +35,7 @@ LIST_IMAGE_LENGTH = 480
 IMAGES_PER_PAGE = 200
 
 # качество изображений
-IMAGE_QUALITY = 95
+IMAGE_QUALITY = 94
 
 # БД
 PSYCOPG_CONNECTION_STRING = "dbname='ivas3kru' user='vas3k' host='localhost' password='password'"
