@@ -35,65 +35,78 @@ def index():
 
 @app.route("/upload/", methods=["POST"])
 def upload():
-    image_file = request.files.get("media") or request.files.get("image")
+    files = request.files.getlist("media") or request.files.getlist("image")
     data = request.form.get("media") or request.form.get("image")
-    if image_file:
-        image_extension = image_file.filename[image_file.filename.rfind(".") + 1:].lower()
-        data = image_file.read()
+
+    images = []
+    if files:
+        for image_file in files:
+            image_extension = image_file.filename[image_file.filename.rfind(".") + 1:].lower()
+            if image_extension not in ALLOWED_EXTENSIONS:
+                return "{} is not allowed".format(image_extension)
+            data = image_file.read()
+            images.append((data, image_extension))
     elif data:
         data, image_extension = convert_param_to_data(data)
-    else:
-        return "No image"
-
-    if image_extension not in ALLOWED_EXTENSIONS:
-        return "%s is not allowed" % image_extension
+        if image_extension not in ALLOWED_EXTENSIONS:
+            return "{} is not allowed".format(image_extension)
+        images.append((data, image_extension))
 
     db = psycopg2.connect(PSYCOPG_CONNECTION_STRING)
     cursor = db.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cursor.execute("insert into images values (default, null, now()) returning id")
-    file_id = cursor.fetchone()[0]
 
-    image_code = base36_encode(file_id)
-    image_path = os.path.join(FULL_IMAGE_FILE_PATH, file_path("{}.{}".format(image_code, image_extension)))
+    uploaded_image_names = []
 
-    image_dir = image_path[:image_path.rfind("/") + 1]
-    if not os.path.exists(image_dir):
-        os.makedirs(image_dir, mode=0o777)
+    for image in images:
+        data, image_extension = image
 
-    try:
-        image_file = io.BytesIO(data)
-        image = Image.open(image_file)
-    except IOError as ex:
-        cursor.execute("delete from images where id = %s", [file_id])
+        cursor.execute("insert into images values (default, null, now()) returning id")
+        file_id = cursor.fetchone()[0]
+
+        image_code = base36_encode(file_id)
+        image_path = os.path.join(FULL_IMAGE_FILE_PATH, file_path("{}.{}".format(image_code, image_extension)))
+
+        image_dir = image_path[:image_path.rfind("/") + 1]
+        if not os.path.exists(image_dir):
+            os.makedirs(image_dir, mode=0o777)
+
+        try:
+            image_file = io.BytesIO(data)
+            image = Image.open(image_file)
+        except IOError as ex:
+            cursor.execute("delete from images where id = %s", [file_id])
+            db.commit()
+            cursor.close()
+            return "Image upload error (maybe not image?): {}".format(ex)
+
+        image_width = float(image.size[0])
+        image_height = float(image.size[1])
+        orig_save_size = get_fit_image_size(image_width, image_height, ORIGINAL_MAX_IMAGE_LENGTH)
+        image.thumbnail(orig_save_size, Image.ANTIALIAS)
+
+        try:
+            image = apply_rotation_by_exif(image)
+        except (IOError, KeyError, AttributeError) as ex:
+            log.error("Auto-rotation error: {}".format(ex))
+
+        image.save(image_path, quality=IMAGE_QUALITY)
+        image_name = "{}.{}".format(image_code, image_extension)
+        cursor.execute("update images set image = %s, file = %s where id = %s", [image_name, image_path, file_id])
         db.commit()
-        cursor.close()
-        return "Image upload error (maybe not image?): {}".format(ex)
 
-    image_width = float(image.size[0])
-    image_height = float(image.size[1])
-    orig_save_size = get_fit_image_size(image_width, image_height, ORIGINAL_MAX_IMAGE_LENGTH)
-    image.thumbnail(orig_save_size, Image.ANTIALIAS)
+        uploaded_image_names.append(image_name)
 
-    try:
-        image = apply_rotation_by_exif(image)
-    except (IOError, KeyError, AttributeError) as ex:
-        log.error("Auto-rotation error: {}".format(ex))
-
-    image.save(image_path, quality=IMAGE_QUALITY)
-    image_name = "{}.{}".format(image_code, image_extension)
-    cursor.execute("update images set image = %s, file = %s where id = %s", [image_name, image_path, file_id])
-    db.commit()
     cursor.close()
     db.close()
 
     nojson = request.form.get("nojson")
     if nojson:
-        return redirect("{}/meta/{}".format(BASE_URI, image_name))
+        return redirect("{}/meta/{}".format(BASE_URI, "+".join(uploaded_image_names)))
     else:
-        print(BASE_URI, image_name)
         return json.dumps({
-            "url": "{}/{}".format(BASE_URI, image_name),
-            "name": image_name
+            "uploaded": [
+                "{}/{}".format(BASE_URI, image_name) for image_name in uploaded_image_names
+            ]
         })
 
 
@@ -107,12 +120,17 @@ def full_image(filename):
     return x_accel_response("/images/max/{}".format(file_path(filename)))
 
 
-@app.route("/meta/<filename>", methods=["GET"])
-def meta_image(filename):
+@app.route("/meta/<filenames>", methods=["GET"])
+def meta_image(filenames):
+    filenames = filenames.split("+")
     return render_template(
         "meta.html",
-        image="{}/{}".format(BASE_URI, filename),
-        image_full="{}/full/{}".format(BASE_URI, filename)
+        images=[
+            (
+                "{}/{}".format(BASE_URI, filename),
+                "{}/full/{}".format(BASE_URI, filename)
+            ) for filename in filenames
+        ]
     )
 
 

@@ -35,43 +35,56 @@
     }
 </style>
 <body>
-    <div style="font-size: 32px; text-align: center; padding: 50px;">
-        <a href="{{ image }}" style="margin-right: 40px;">{{ image }}</a>
-        <a href="{{ image_full }}" style="margin-left: 40px;">{{ image_full }}</a>
+    <div style="width: 50%; float: left; font-size: 32px; text-align: right; padding-top: 50px;">
+        {% for image, image_full in images %}
+            <a href="{{ image }}" style="margin-right: 40px;">{{ image }}</a><br>
+        {% endfor %}
+    </div>
+
+    <div style="width: 50%; float: left; font-size: 32px; text-align: left; padding-top: 50px;">
+        {% for image, image_full in images %}
+            <a href="{{ image_full }}" style="margin-left: 40px;">{{ image_full }}</a><br>
+        {% endfor %}
     </div>
 
     <div class="examples">
         <div class="example">
             Прост<br>
             <textarea>
+{% for image, image_full in images %}
 <figure>
     <a href="{{ image_full }}"><img src="{{ image }}"></a>
     <figcaption></figcaption>
 </figure>
+{% endfor %}
             </textarea>
         </div>
 
         <div class="example">
             По ширине текста<br>
             <textarea>
+{% for image, image_full in images %}
 <div class="block-media block-media__body">
     <figure>
         <a href="{{ image_full }}"><img src="{{ image }}"></a>
         <figcaption></figcaption>
     </figure>
 </div>
+{% endfor %}
             </textarea>
         </div>
 
         <div class="example">
             По ширине экрана<br>
             <textarea>
+{% for image, image_full in images %}
 <div class="block-media block-media__full">
     <figure>
         <a href="{{ image_full }}"><img src="{{ image_full }}"></a>
         <figcaption></figcaption>
     </figure>
 </div>
+{% endfor %}
             </textarea>
         </div>
 
@@ -79,10 +92,12 @@
             Сайдбар справа<br>
             <textarea>
 <div class="block-side block-side__right">
+    {% for image, image_full in images %}
     <figure>
         <a href="{{ image_full }}"><img src="{{ image }}"></a>
         <figcaption></figcaption>
     </figure>
+    {% endfor %}
 </div>
             </textarea>
         </div>
@@ -91,10 +106,12 @@
             Сайдбар слева<br>
             <textarea>
 <div class="block-side block-side__left">
+    {% for image, image_full in images %}
     <figure>
         <a href="{{ image_full }}"><img src="{{ image }}"></a>
         <figcaption></figcaption>
     </figure>
+    {% endfor %}
 </div>
             </textarea>
         </div>
@@ -103,10 +120,12 @@
             В тексте справа<br>
             <textarea>
 <div class="block-media block-media__right">
+    {% for image, image_full in images %}
     <figure>
         <a href="{{ image_full }}"><img src="{{ image }}"></a>
         <figcaption></figcaption>
     </figure>
+    {% endfor %}
 </div>
             </textarea>
         </div>
@@ -115,10 +134,12 @@
             2 по ширине текста<br>
             <textarea>
 <div class="block-media block-media__2">
+    {% for image, image_full in images %}
     <figure>
         <a href="{{ image_full }}"><img src="{{ image }}"></a>
         <figcaption></figcaption>
     </figure>
+    {% endfor %}
 </div>
             </textarea>
         </div>
@@ -127,10 +148,12 @@
             3 по ширине экрана<br>
             <textarea>
 <div class="block-media block-media__3-full">
+    {% for image, image_full in images %}
     <figure>
         <a href="{{ image_full }}"><img src="{{ image }}"></a>
         <figcaption></figcaption>
     </figure>
+    {% endfor %}
 </div>
             </textarea>
         </div>
@@ -139,10 +162,12 @@
             4 по ширине текста<br>
             <textarea>
 <div class="block-media block-media__4">
+    {% for image, image_full in images %}
     <figure>
         <a href="{{ image_full }}"><img src="{{ image }}"></a>
         <figcaption></figcaption>
     </figure>
+    {% endfor %}
 </div>
             </textarea>
         </div>
@@ -150,39 +175,47 @@
         <div class="example">
             Фоном, fixed, cover<br>
             <textarea>
+{% for image, image_full in images %}
 <div class="block-background" style="background-image: url('{{ image_full }}');">
 	<div class="block-text">
 
     </div>
 </div>
+{% endfor %}
             </textarea>
         </div>
 
         <div class="example">
             Фоном, scroll, right<br>
             <textarea>
+{% for image, image_full in images %}
 <div class="block-background" style="background-image: url('{{ image_full }}'); background-repeat: no-repeat; background-position: 95% 0; background-size: 30%;">
 	<div class="block-text">
 
     </div>
 </div>
+{% endfor %}
             </textarea>
         </div>
 
         <div class="example">
             Фоном, fixed, bottom-right<br>
             <textarea>
+{% for image, image_full in images %}
 <div class="block-background" style="background-color: #FFF; background-image: url('{{ image_full }}'); background-size: 200px; background-repeat: no-repeat; background-position: right bottom;">
 	<div class="block-text">
 
     </div>
 </div>
+{% endfor %}
             </textarea>
         </div>
     </div>
 
     <div style="text-align: center;">
-        <img src="{{ image }}">
+        {% for image, image_full in images %}
+            <img src="{{ image }}"><br><br>
+        {% endfor %}
     </div>
 </body>
 </html>
