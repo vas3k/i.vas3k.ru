@@ -52,10 +52,7 @@
             Прост<br>
             <textarea>
 {% for image, image_full in images %}
-<figure>
-    <a href="{{ image_full }}"><img src="{{ image }}"></a>
-    <figcaption></figcaption>
-</figure>
+![]({{ image }})
 {% endfor %}
             </textarea>
         </div>
@@ -64,12 +61,7 @@
             По ширине текста<br>
             <textarea>
 {% for image, image_full in images %}
-<div class="block-media block-media__body">
-    <figure>
-        <a href="{{ image_full }}"><img src="{{ image }}"></a>
-        <figcaption></figcaption>
-    </figure>
-</div>
+{{{.block-media.block-media__body ![]({{ image }}) }}}
 {% endfor %}
             </textarea>
         </div>
@@ -78,97 +70,43 @@
             По ширине экрана<br>
             <textarea>
 {% for image, image_full in images %}
-<div class="block-media block-media__full">
-    <figure>
-        <a href="{{ image_full }}"><img src="{{ image_full }}"></a>
-        <figcaption></figcaption>
-    </figure>
-</div>
+{{{.block-media.block-media__full ![]({{ image }}) }}}
 {% endfor %}
             </textarea>
         </div>
 
         <div class="example">
-            Сайдбар справа<br>
+            Справа<br>
             <textarea>
-<div class="block-side block-side__right">
-    {% for image, image_full in images %}
-    <figure>
-        <a href="{{ image_full }}"><img src="{{ image }}"></a>
-        <figcaption></figcaption>
-    </figure>
-    {% endfor %}
-</div>
+{{{.block-side.block-side__right {% for image, image_full in images %} ![]({{ image }}) {% endfor %} }}}
             </textarea>
         </div>
 
         <div class="example">
-            Сайдбар слева<br>
+            Слева<br>
             <textarea>
-<div class="block-side block-side__left">
-    {% for image, image_full in images %}
-    <figure>
-        <a href="{{ image_full }}"><img src="{{ image }}"></a>
-        <figcaption></figcaption>
-    </figure>
-    {% endfor %}
-</div>
-            </textarea>
-        </div>
-
-        <div class="example">
-            В тексте справа<br>
-            <textarea>
-<div class="block-media block-media__right">
-    {% for image, image_full in images %}
-    <figure>
-        <a href="{{ image_full }}"><img src="{{ image }}"></a>
-        <figcaption></figcaption>
-    </figure>
-    {% endfor %}
-</div>
+{{{.block-side.block-side__left {% for image, image_full in images %} ![]({{ image }}) {% endfor %} }}}
             </textarea>
         </div>
 
         <div class="example">
             2 по ширине текста<br>
             <textarea>
-<div class="block-media block-media__2">
-    {% for image, image_full in images %}
-    <figure>
-        <a href="{{ image_full }}"><img src="{{ image }}"></a>
-        <figcaption></figcaption>
-    </figure>
-    {% endfor %}
-</div>
+{{{.block-media.block-media__2 {% for image, image_full in images %} ![]({{ image }}) {% endfor %} }}}
             </textarea>
         </div>
 
         <div class="example">
             3 по ширине экрана<br>
             <textarea>
-<div class="block-media block-media__3-full">
-    {% for image, image_full in images %}
-    <figure>
-        <a href="{{ image_full }}"><img src="{{ image }}"></a>
-        <figcaption></figcaption>
-    </figure>
-    {% endfor %}
-</div>
+{{{.block-media.block-media__3-full {% for image, image_full in images %} ![]({{ image }}) {% endfor %} }}}
             </textarea>
         </div>
 
         <div class="example">
             4 по ширине текста<br>
             <textarea>
-<div class="block-media block-media__4">
-    {% for image, image_full in images %}
-    <figure>
-        <a href="{{ image_full }}"><img src="{{ image }}"></a>
-        <figcaption></figcaption>
-    </figure>
-    {% endfor %}
-</div>
+{{{.block-media.block-media__4 {% for image, image_full in images %} ![]({{ image }}) {% endfor %} }}}
             </textarea>
         </div>
 
