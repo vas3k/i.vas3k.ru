@@ -1,6 +1,6 @@
 import os.path
 
-BASE_URI = "http://i.vas3k.ru"
+BASE_URI = "https://i.vas3k.ru"
 ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "gif"]
 
 CURRENT_DIR = os.path.dirname(__file__)
