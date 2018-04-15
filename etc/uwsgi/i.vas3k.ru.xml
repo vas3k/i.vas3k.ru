@@ -14,6 +14,6 @@
     <post-buffering-bufsize>65536</post-buffering-bufsize>
     <max-requests>1000</max-requests>
     <master/>
-    <workers>5</workers>
+    <workers>10</workers>
 </uwsgi>
 
