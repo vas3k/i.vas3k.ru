@@ -1,6 +1,6 @@
 # i.vas3k.ru 
 
-## Old and simple script which helps me to upload, resize and insert pictures to my blog 
+### Old and simple script which helps me to upload, resize and insert pictures to my blog 
 
 Does many handy things using a bit of nginx X-Accel-Redirect magic. Can resize pictures on the go and distribute the final result through nginx.
 
