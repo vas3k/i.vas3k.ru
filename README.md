@@ -1,4 +1,8 @@
-**i.vas3k.ru** — old and simple script which helps me to upload, resize and insert pictures to my blog. Does many handy things using a bit of nginx X-Accel-Redirect magic. Can resize pictures on the go and distribute the final result through nginx.
+# i.vas3k.ru 
+
+## Old and simple script which helps me to upload, resize and insert pictures to my blog 
+
+Does many handy things using a bit of nginx X-Accel-Redirect magic. Can resize pictures on the go and distribute the final result through nginx.
 
 Written on Flask. Uses Pillow for image processing and PostgreSQL for statistics. Yes, the usage of postgres here is overkill, but the previous version on plain-files constantly became inconsistent and I rewrote everything.
 
