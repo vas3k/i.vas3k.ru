@@ -16,13 +16,13 @@ app = Flask(__name__)
 app.debug = True
 
 log = logging.getLogger(__name__)
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
 def x_accel_response(filepath):
-    # nginx'овый internal redirect 
-    # очень магическая фигня, которая отдает статику nginx'ом, а не python'ом
-    # описание тут: http://kovyrin.net/2006/11/01/nginx-x-accel-redirect-php-rails/
+    # nginx x-accel internal redirect 
+    # magic headers, that distributes statics files through nginx instead of python
+    # here is a description http://kovyrin.net/2006/11/01/nginx-x-accel-redirect-php-rails/
     redirect_response = Response(mimetype=guess_type(filepath)[0])
     redirect_response.headers["X-Accel-Redirect"] = filepath
     return redirect_response
@@ -99,8 +99,7 @@ def upload():
     cursor.close()
     db.close()
 
-    nojson = request.form.get("nojson")
-    if nojson:
+    if request.form.get("nojson"):
         return redirect("{}/meta/{}".format(BASE_URI, "+".join(uploaded_image_names)))
     else:
         return json.dumps({
