@@ -20,9 +20,12 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
 def x_accel_response(filepath):
-    # nginx x-accel internal redirect 
-    # magic headers, that distributes statics files through nginx instead of python
-    # here is a description http://kovyrin.net/2006/11/01/nginx-x-accel-redirect-php-rails/
+    """
+        Nginx X-Accel Redirect magic.
+        That headers will distribute statics files through nginx instead of python.
+        
+        Description: http://kovyrin.net/2006/11/01/nginx-x-accel-redirect-php-rails/
+    """
     redirect_response = Response(mimetype=guess_type(filepath)[0])
     redirect_response.headers["X-Accel-Redirect"] = filepath
     return redirect_response

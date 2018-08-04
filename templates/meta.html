@@ -54,6 +54,11 @@
         </div>
 
         <div class="example">
+            Ссылкой<br>
+            <textarea>{% for image, image_full in images %}[![]({{ image }})]({{ image_full }}){% endfor %}</textarea>
+        </div>
+
+        <div class="example">
             По ширине текста<br>
             <textarea>{% for image, image_full in images %}{{ '{{{' }} ![]({{ image }}) {{ '}}}' }}{% endfor %}</textarea>
         </div>
@@ -86,45 +91,6 @@
         <div class="example">
             4 по ширине текста<br>
             <textarea>{{ '{{{.block-media.block-media__4' }} {% for image, image_full in images %} ![]({{ image }}) {% endfor %} {{ '}}}' }}</textarea>
-        </div>
-
-        <div class="example">
-            Фоном, fixed, cover<br>
-            <textarea>
-{% for image, image_full in images %}
-<div class="block-background" style="background-image: url('{{ image_full }}');">
-	<div class="block-text">
-
-    </div>
-</div>
-{% endfor %}
-            </textarea>
-        </div>
-
-        <div class="example">
-            Фоном, scroll, right<br>
-            <textarea>
-{% for image, image_full in images %}
-<div class="block-background" style="background-image: url('{{ image_full }}'); background-repeat: no-repeat; background-position: 95% 0; background-size: 30%;">
-	<div class="block-text">
-
-    </div>
-</div>
-{% endfor %}
-            </textarea>
-        </div>
-
-        <div class="example">
-            Фоном, fixed, bottom-right<br>
-            <textarea>
-{% for image, image_full in images %}
-<div class="block-background" style="background-color: #FFF; background-image: url('{{ image_full }}'); background-size: 200px; background-repeat: no-repeat; background-position: right bottom;">
-	<div class="block-text">
-
-    </div>
-</div>
-{% endfor %}
-            </textarea>
         </div>
     </div>
 
