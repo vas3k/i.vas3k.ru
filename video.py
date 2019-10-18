@@ -19,9 +19,10 @@ def save_and_transcode_video(data, extension, file_code):
     with open(save_file_path, "wb") as f:
         f.write(data)
 
+    long_file_name = "{}.{}".format(file_code, settings.VIDEO_OUTPUT_EXTENSION)
     transcoded_file_path = os.path.join(
         settings.VIDEOS_FILE_PATH,
-        generate_file_path("{}.{}".format(file_code, settings.VIDEO_OUTPUT_EXTENSION))
+        generate_file_path(long_file_name)
     )
 
     ffmpeg\
@@ -34,4 +35,4 @@ def save_and_transcode_video(data, extension, file_code):
     if extension != settings.VIDEO_OUTPUT_EXTENSION:
         os.remove(save_file_path)
 
-    return transcoded_file_path
+    return long_file_name, transcoded_file_path

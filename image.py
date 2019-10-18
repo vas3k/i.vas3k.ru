@@ -11,9 +11,10 @@ logger = logging.getLogger(__name__)
 
 
 def save_full_image(data, extension, file_code):
+    long_file_name = "{}.{}".format(file_code, extension)
     save_file_path = os.path.join(
         settings.FULL_IMAGE_FILE_PATH,
-        generate_file_path("{}.{}".format(file_code, extension))
+        generate_file_path(long_file_name)
     )
 
     save_dir = save_file_path[:save_file_path.rfind("/") + 1]
@@ -35,7 +36,7 @@ def save_full_image(data, extension, file_code):
 
     image.save(save_file_path, quality=settings.IMAGE_QUALITY)
 
-    return save_file_path
+    return long_file_name, save_file_path
 
 
 def get_fit_image_size(image_width, image_height, max_length):

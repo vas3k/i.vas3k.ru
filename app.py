@@ -71,7 +71,7 @@ def upload():
 
         if extension in settings.IMAGE_EXTENSIONS:
             try:
-                saved_file_path = save_full_image(data, extension, file_code)
+                public_file_name, saved_file_path = save_full_image(data, extension, file_code)
             except IOError as ex:
                 cursor.execute("delete from images where id = %s", [file_id])
                 db.commit()
@@ -79,7 +79,7 @@ def upload():
                 return "Image upload error: {}".format(ex)
         elif extension in settings.VIDEO_EXTENSIONS:
             try:
-                saved_file_path = save_and_transcode_video(data, extension, file_code)
+                public_file_name, saved_file_path = save_and_transcode_video(data, extension, file_code)
             except IOError as ex:
                 cursor.execute("delete from images where id = %s", [file_id])
                 db.commit()
@@ -88,7 +88,6 @@ def upload():
         else:
             return "Unknown file extension: {}".format(extension)
 
-        public_file_name = "{}.{}".format(file_code, extension)
         cursor.execute("update images set image = %s, file = %s where id = %s", [
             public_file_name, saved_file_path, file_id
         ])
@@ -131,7 +130,7 @@ def normal_size_media(filename):
 def full_media(filename):
     if is_image(filename):
         return x_accel_response("/images/max/{}".format(generate_file_path(filename)))
-    return x_accel_response("/videos/max/{}".format(generate_file_path(filename)))
+    return x_accel_response("/videos/{}".format(generate_file_path(filename)))
 
 
 @app.route("/<int(min=100,max=2500):max_length>/<filename>", methods=["GET"])
