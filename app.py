@@ -88,12 +88,13 @@ def upload():
         else:
             return "Unknown file extension: {}".format(extension)
 
+        public_file_name = "{}.{}".format(file_code, extension)
         cursor.execute("update images set image = %s, file = %s where id = %s", [
-            "{}.{}".format(file_code, extension), saved_file_path, file_id
+            public_file_name, saved_file_path, file_id
         ])
         db.commit()
 
-        uploaded_file_names.append(file_name(saved_file_path))
+        uploaded_file_names.append(public_file_name)
 
     cursor.close()
     db.close()
