@@ -1,8 +1,10 @@
 import base64
-from PIL import Image, ExifTags
-from settings import FILE_TREE_SPLIT_N
+import os
+from mimetypes import guess_type
 
-__all__ = ["base36_encode", "get_fit_image_size", "apply_rotation_by_exif", "file_path", "convert_param_to_data"]
+from flask import Response
+
+import settings
 
 
 def base36_encode(number):
@@ -16,52 +18,25 @@ def base36_encode(number):
     return ''.join(reversed(base36))
 
 
-def get_fit_image_size(image_width, image_height, max_length):
-    if image_width > image_height:  # landscape
-        new_width = max_length
-        new_height = new_width / image_width * image_height
-        return int(new_width), int(new_height)
-    elif image_width < image_height:  # portrait
-        new_height = max_length
-        new_width = new_height / image_height * image_width
-        return int(new_width), int(new_height)
-    else:  # square
-        return int(max_length), int(max_length)
-
-
-ORIENTATION_NORM = 1
-ORIENTATION_UPSIDE_DOWN = 3
-ORIENTATION_RIGHT = 6
-ORIENTATION_LEFT = 8
-
-
-def apply_rotation_by_exif(image):
-    orientation = None
-    for orientation in ExifTags.TAGS.keys():
-        if ExifTags.TAGS[orientation] == 'Orientation':
-            break
-
-    if hasattr(image, '_getexif'):  # only present in JPEGs
-        exif = image._getexif()        # returns None if no EXIF data
-        if exif is not None:
-            exif = dict(exif.items())
-            orientation = exif[orientation]
-
-            if orientation == ORIENTATION_UPSIDE_DOWN:
-                return image.transpose(Image.ROTATE_180)
-            elif orientation == ORIENTATION_RIGHT:
-                return image.transpose(Image.ROTATE_270)
-            elif orientation == ORIENTATION_LEFT:
-                return image.transpose(Image.ROTATE_90)
-
-    return image
-
-
-def file_path(filename):
+def generate_file_path(filename):
     base_filename = filename[:filename.rfind(".")]
     file_extension = filename[filename.rfind(".")+1:]
-    ok_filepath = "/".join([base_filename[i:i+FILE_TREE_SPLIT_N] for i in range(0, len(base_filename), FILE_TREE_SPLIT_N)])
+    ok_filepath = "/".join([
+        base_filename[i:i+settings.FILE_TREE_SPLIT_N] for i in range(0, len(base_filename), settings.FILE_TREE_SPLIT_N)
+    ])
     return "%s.%s" % (ok_filepath, file_extension)
+
+
+def file_name(path):
+    return os.path.basename(path)
+
+
+def file_extension(filename):
+    return filename[filename.rfind(".") + 1:].lower()
+
+
+def is_image(filename):
+    return file_extension(filename) in settings.IMAGE_EXTENSIONS
 
 
 def convert_param_to_data(data):
@@ -77,3 +52,22 @@ def convert_param_to_data(data):
             raise None
     except TypeError:
         return None
+
+
+def full_url(url):
+    if is_image(url):
+        return "{}/full/{}".format(settings.BASE_URI, file_name(url))
+    return url
+
+
+def x_accel_response(filepath):
+    """
+        Nginx X-Accel Redirect magic.
+        That headers will distribute statics files through nginx instead of python.
+
+        Description: http://kovyrin.net/2006/11/01/nginx-x-accel-redirect-php-rails/
+    """
+    redirect_response = Response(mimetype=guess_type(filepath)[0])
+    redirect_response.headers["X-Accel-Redirect"] = filepath
+    return redirect_response
+

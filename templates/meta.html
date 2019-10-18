@@ -5,12 +5,12 @@
     <meta name="description" content="description">
     <title>i.vas3k.ru</title>
     <meta property="og:title" content="i.vas3k.ru" />
-    <meta property="og:url" content="{{ image }}" />
-    <meta property="og:image" content="{{ image }}" />
+    <meta property="og:url" content="{{ url }}" />
+    <meta property="og:image" content="{{ url }}" />
     <meta name="twitter:card" content="photo" />
     <meta name="twitter:title" content="i.vas3k.ru" />
-    <meta name="twitter:image" content="{{ image }}" />
-    <meta name="twitter:image:src" content="{{ image }}" />
+    <meta name="twitter:image" content="{{ url }}" />
+    <meta name="twitter:image:src" content="{{ url }}" />
 </head>
 <style>
     body {
@@ -33,70 +33,89 @@
         float: left;
         margin-bottom: 50px;
     }
+
+    .clearfix {
+        display: block;
+        clear: both;
+        width: 100%;
+    }
 </style>
 <body>
     <div style="width: 50%; float: left; font-size: 32px; text-align: right; padding-top: 50px;">
-        {% for image, image_full in images %}
-            <a href="{{ image }}" style="margin-right: 40px;">{{ image }}</a><br>
+        {% for url in urls %}
+            <a href="{{ url }}" style="margin-right: 40px;">{{ url }}</a><br>
         {% endfor %}
     </div>
 
     <div style="width: 50%; float: left; font-size: 32px; text-align: left; padding-top: 50px;">
-        {% for image, image_full in images %}
-            <a href="{{ image_full }}" style="margin-left: 40px;">{{ image_full }}</a><br>
+        {% for url in urls %}
+            {% if url != full_url(url) %}
+                <a href="{{ full_url(url) }}" style="margin-left: 40px;">{{ full_url(url) }}</a><br>
+            {% endif %}
         {% endfor %}
     </div>
+
+    <div class="clearfix"></div>
 
     <div class="examples">
         <div class="example">
             Прост<br>
-            <textarea>{% for image, image_full in images %}![]({{ image }}){% endfor %}</textarea>
+            <textarea>{% for url in urls %}![]({{ url }}){% endfor %}</textarea>
         </div>
 
         <div class="example">
             Ссылкой<br>
-            <textarea>{% for image, image_full in images %}[![]({{ image }})]({{ image_full }}){% endfor %}</textarea>
+            <textarea>{% for url in urls %}[![]({{ url }})]({{ full_url(url) }}){% endfor %}</textarea>
         </div>
 
         <div class="example">
             По ширине текста<br>
-            <textarea>{% for image, image_full in images %}{{ '{{{' }} ![]({{ image }}) {{ '}}}' }}{% endfor %}</textarea>
+            <textarea>{% for url in urls %}{{ '{{{' }} ![]({{ url }}) {{ '}}}' }}{% endfor %}</textarea>
         </div>
 
         <div class="example">
             По ширине экрана<br>
-            <textarea>{% for image, image_full in images %}{{ '{{{.block-media.block-media__full' }} ![]({{ image }}) {{ '}}}' }}{% endfor %}</textarea>
+            <textarea>{% for url in urls %}{{ '{{{.block-media.block-media__full' }} ![]({{ full_url(url) }}) {{ '}}}' }}{% endfor %}</textarea>
         </div>
 
         <div class="example">
             Справа<br>
-            <textarea>{{ '{{{.block-side.block-side__right' }} {% for image, image_full in images %} ![]({{ image }}) {% endfor %} {{ '}}}' }}</textarea>
+            <textarea>{{ '{{{.block-side.block-side__right' }} {% for url in urls %} ![]({{ url }}) {% endfor %} {{ '}}}' }}</textarea>
         </div>
 
         <div class="example">
             Слева<br>
-            <textarea>{{ '{{{.block-side.block-side__left' }} {% for image, image_full in images %} ![]({{ image }}) {% endfor %} {{ '}}}' }}</textarea>
+            <textarea>{{ '{{{.block-side.block-side__left' }} {% for url in urls %} ![]({{ url }}) {% endfor %} {{ '}}}' }}</textarea>
         </div>
 
         <div class="example">
             2 по ширине текста<br>
-            <textarea>{{ '{{{.block-media.block-media__2' }} {% for image, image_full in images %} ![]({{ image }}) {% endfor %} {{ '}}}' }}</textarea>
+            <textarea>{{ '{{{.block-media.block-media__2' }} {% for url in urls %} ![]({{ url }}) {% endfor %} {{ '}}}' }}</textarea>
         </div>
 
         <div class="example">
             3 по ширине экрана<br>
-            <textarea>{{ '{{{.block-media.block-media__3-full' }} {% for image, image_full in images %} ![]({{ image }}) {% endfor %} {{ '}}}' }}</textarea>
+            <textarea>{{ '{{{.block-media.block-media__3-full' }} {% for url in urls %} ![]({{ url }}) {% endfor %} {{ '}}}' }}</textarea>
         </div>
 
         <div class="example">
-            4 по ширине текста<br>
-            <textarea>{{ '{{{.block-media.block-media__4' }} {% for image, image_full in images %} ![]({{ image }}) {% endfor %} {{ '}}}' }}</textarea>
+            75% по центру<br>
+            <textarea>{% for url in urls %}{{ '{{{.block-media.width-75' }} ![]({{ url }}) {{ '}}}' }}{% endfor %}</textarea>
+        </div>
+
+        <div class="example">
+            50% по центру<br>
+            <textarea>{% for url in urls %}{{ '{{{.block-media.width-50' }} ![]({{ url }}) {{ '}}}' }}{% endfor %}</textarea>
         </div>
     </div>
 
     <div style="text-align: center;">
-        {% for image, image_full in images %}
-            <img src="{{ image }}"><br><br>
+        {% for url in urls %}
+            {% if is_image(url) %}
+                <img src="{{ url }}" alt="{{ url }}"><br><br>
+            {% else %}
+                <video src="{{ url }}" width="480" controls></video><br><br>
+            {% endif %}
         {% endfor %}
     </div>
 </body>

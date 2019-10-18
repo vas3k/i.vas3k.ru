@@ -33,10 +33,20 @@
     }
 </style>
 <body>
-    <form action="/upload/" method="post" enctype="multipart/form-data">
-        <input type="file" name="media" multiple>
-        <input type="hidden" name="nojson" value="1">
-        <input type="submit" value="Upload">
-    </form>
+    {% if has_access %}
+        <form action="/upload/" method="post" enctype="multipart/form-data">
+            <input type="file" name="media" multiple>
+            <input type="hidden" name="nojson" value="1">
+            <input type="submit" value="Upload">
+        </form>
+    {% else %}
+        <form action="." method="get">
+            <label>
+                Access code:
+                <input type="text" name="code">
+            </label>
+            <input type="submit" value="Enter">
+        </form>
+    {% endif %}
 </body>
 </html>
