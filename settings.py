@@ -33,7 +33,7 @@ ORIGINAL_VIDEO_MAX_SIZE = 300 * 1000 * 1000  # 300 Mb
 VIDEO_OUTPUT_HEIGHT = 432
 VIDEO_OUTPUT_EXTENSION = "mp4"
 VIDEO_OUTPUT_SETTINGS = {
-    "crf": 25,
+    "crf": 24,
     "preset": "slow",
     "profile:v": "baseline",
     "codec:v": "libx264",
