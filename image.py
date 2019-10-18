@@ -33,7 +33,7 @@ def save_full_image(data, extension, file_code):
     except (IOError, KeyError, AttributeError) as ex:
         logger.error("Auto-rotation error: {}".format(ex))
 
-    image.save(generate_file_path, quality=settings.IMAGE_QUALITY)
+    image.save(save_file_path, quality=settings.IMAGE_QUALITY)
 
     return save_file_path
 
