@@ -27,7 +27,7 @@ def save_and_transcode_video(data, extension, file_code):
 
     ffmpeg\
         .input(save_file_path) \
-        .filter("scale", height=settings.VIDEO_OUTPUT_HEIGHT, width=-1)\
+        .filter("scale", height=settings.VIDEO_OUTPUT_HEIGHT, width="trunc(oh*a/2)*2")\
         .filter("fps", fps=25, round='up')\
         .output(transcoded_file_path, **settings.VIDEO_OUTPUT_SETTINGS)\
         .run(cmd=settings.FFMPEG_PATH)
