@@ -24,15 +24,11 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 @app.route("/")
 def index():
-    if not settings.UPLOAD_SECRET_CODE:
-        return render_template("index.html", has_access=True)
-
-    code = request.args.get("code") or request.cookies.get("code")
-
     response = make_response(
-        render_template("index.html", has_access=code == settings.UPLOAD_SECRET_CODE)
+        render_template("index.html", has_access=is_authorized(request))
     )
 
+    code = request.args.get("code") or request.cookies.get("code")
     if code:
         response.set_cookie("code", code)
 
@@ -41,6 +37,9 @@ def index():
 
 @app.route("/upload/", methods=["POST"])
 def upload():
+    if not is_authorized(request):
+        return redirect("/")
+
     files = request.files.getlist("media") or request.files.getlist("image")
     data = request.form.get("media") or request.form.get("image")
 

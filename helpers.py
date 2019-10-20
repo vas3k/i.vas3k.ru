@@ -60,6 +60,13 @@ def full_url(url):
     return url
 
 
+def is_authorized(request):
+    if not settings.UPLOAD_SECRET_CODE:
+        return True
+    code = request.args.get("code") or request.cookies.get("code")
+    return code == settings.UPLOAD_SECRET_CODE
+
+
 def x_accel_response(filepath):
     """
         Nginx X-Accel Redirect magic.
