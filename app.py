@@ -38,7 +38,7 @@ def index():
 @app.route("/upload/", methods=["POST"])
 def upload():
     if not is_authorized(request):
-        return redirect("/")
+        abort(401, "Not authorized")
 
     files = request.files.getlist("media") or request.files.getlist("image")
     data = request.form.get("media") or request.form.get("image")
