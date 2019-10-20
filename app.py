@@ -10,7 +10,7 @@ import psycopg2.extras
 
 import settings
 from helpers import generate_file_path, convert_param_to_data, base36_encode, x_accel_response, file_extension, is_image, \
-    file_name, full_url
+    file_name, full_url, is_authorized
 from image import get_fit_image_size, save_full_image
 from video import save_and_transcode_video
 
