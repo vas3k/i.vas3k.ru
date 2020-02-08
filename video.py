@@ -30,6 +30,7 @@ def save_and_transcode_video(data, extension, file_code):
         .filter("scale", height=settings.VIDEO_OUTPUT_HEIGHT, width="trunc(oh*a/2)*2")\
         .filter("fps", fps=25, round='up')\
         .output(transcoded_file_path, **settings.VIDEO_OUTPUT_SETTINGS)\
+        .overwrite_output()\
         .run(cmd=settings.FFMPEG_PATH)
 
     if extension != settings.VIDEO_OUTPUT_EXTENSION:
