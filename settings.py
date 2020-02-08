@@ -35,12 +35,15 @@ VIDEO_OUTPUT_EXTENSION = "mp4"
 VIDEO_OUTPUT_SETTINGS = {
     "crf": 24,
     "preset": "slow",
-    "profile:v": "baseline",
+    "profile:v": "main",
+    "level:v": "3.1",
     "codec:v": "libx264",
     "maxrate": "500k",
     "bufsize": "1000k",
-    "codec:a": "libfdk_aac",
-    "b:a": "128k"
+    "codec:a": "aac",
+    "b:a": "128k",
+    "movflags": "+faststart",
+    "pix_fmt": "yuv420p"
 }
 
 try:
