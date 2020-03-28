@@ -7,7 +7,7 @@
     <chdir>/home/vas3k/i.vas3k.ru</chdir>
     <module>app</module>
     <callable>app</callable>
-    <daemonize>/home/vas3k/i.vas3k.ru/logs/i.vas3k.ru.log</daemonize>
+    <daemonize>/dev/null</daemonize>
     <harakiri>30</harakiri>
     <buffer-size>32768</buffer-size>
     <post-buffering>8192</post-buffering>
