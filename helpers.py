@@ -63,7 +63,7 @@ def full_url(url):
 def is_authorized(request):
     if not settings.UPLOAD_SECRET_CODE:
         return True
-    code = request.args.get("code") or request.cookies.get("code")
+    code = request.values.get("code") or request.cookies.get("code")
     return code == settings.UPLOAD_SECRET_CODE
 
 
