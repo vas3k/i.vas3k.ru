@@ -10,7 +10,7 @@ from helpers import generate_file_path
 logger = logging.getLogger(__name__)
 
 
-def save_full_image(data, extension, file_code, convert_to=None):
+def save_full_image(data, extension, file_code, convert_to=None, quality=settings.IMAGE_QUALITY):
     long_file_name = "{}.{}".format(file_code, extension)
     save_file_path = os.path.join(
         settings.FULL_IMAGE_FILE_PATH,
@@ -48,7 +48,7 @@ def save_full_image(data, extension, file_code, convert_to=None):
     except (IOError, KeyError, AttributeError) as ex:
         logger.error("Auto-rotation error: {}".format(ex))
 
-    image.save(save_file_path, quality=settings.IMAGE_QUALITY)
+    image.save(save_file_path, quality=quality)
 
     return long_file_name, save_file_path
 

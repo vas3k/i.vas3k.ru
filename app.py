@@ -43,6 +43,7 @@ def upload():
     files = request.files.getlist("media") or request.files.getlist("image")
     data = request.form.get("media") or request.form.get("image")
     auto_convert = request.values.get("auto_convert")
+    quality = request.values.get("quality") or settings.IMAGE_QUALITY
 
     images = []
     if files:
@@ -75,7 +76,8 @@ def upload():
                     data=data,
                     extension=extension,
                     file_code=file_code,
-                    convert_to=auto_convert
+                    convert_to=auto_convert,
+                    quality=quality,
                 )
             except IOError as ex:
                 cursor.execute("delete from images where id = %s", [file_id])
