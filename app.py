@@ -42,7 +42,7 @@ def upload():
 
     files = request.files.getlist("media") or request.files.getlist("image")
     data = request.form.get("media") or request.form.get("image")
-    auto_convert = request.values.get("auto_convert")
+    convert_to = request.values.get("convert_to")
     quality = request.values.get("quality") or settings.IMAGE_QUALITY
 
     images = []
@@ -76,7 +76,7 @@ def upload():
                     data=data,
                     extension=extension,
                     file_code=file_code,
-                    convert_to=auto_convert,
+                    convert_to=convert_to,
                     quality=quality,
                 )
             except IOError as ex:
