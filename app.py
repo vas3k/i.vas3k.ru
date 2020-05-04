@@ -43,7 +43,7 @@ def upload():
     files = request.files.getlist("media") or request.files.getlist("image")
     data = request.form.get("media") or request.form.get("image")
     convert_to = request.values.get("convert_to")
-    quality = request.values.get("quality") or settings.IMAGE_QUALITY
+    quality = int(request.values.get("quality") or settings.IMAGE_QUALITY)
 
     images = []
     if files:
