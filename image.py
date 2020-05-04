@@ -10,7 +10,7 @@ from helpers import generate_file_path
 logger = logging.getLogger(__name__)
 
 
-def save_full_image(data, extension, file_code):
+def save_full_image(data, extension, file_code, convert_to=None):
     long_file_name = "{}.{}".format(file_code, extension)
     save_file_path = os.path.join(
         settings.FULL_IMAGE_FILE_PATH,
@@ -28,6 +28,20 @@ def save_full_image(data, extension, file_code):
     image_height = float(image.size[1])
     orig_save_size = get_fit_image_size(image_width, image_height, settings.ORIGINAL_IMAGE_MAX_LENGTH)
     image.thumbnail(orig_save_size, Image.ANTIALIAS)
+
+    if convert_to:
+        convert_to = convert_to.strip().lower()
+        if convert_to not in settings.IMAGE_EXTENSIONS:
+            logger.error("Unknown extension to convert: {}".format(convert_to))
+        else:
+            if image.mode == "RGBA" and convert_to == "jpg":
+                # need to convert RGBA -> RGB with white background before saving
+                rgb_image = Image.new("RGB", image.size, (255, 255, 255))
+                rgb_image.paste(image, mask=image.split()[3])  # 3 is the alpha channel
+                image = rgb_image
+
+            save_file_path = os.path.splitext(save_file_path)[0] + "." + convert_to
+            long_file_name = os.path.splitext(long_file_name)[0] + "." + convert_to
 
     try:
         image = auto_rotate_by_exif(image)

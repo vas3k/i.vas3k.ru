@@ -42,6 +42,7 @@ def upload():
 
     files = request.files.getlist("media") or request.files.getlist("image")
     data = request.form.get("media") or request.form.get("image")
+    auto_convert = request.values.get("auto_convert")
 
     images = []
     if files:
@@ -70,7 +71,12 @@ def upload():
 
         if extension in settings.IMAGE_EXTENSIONS:
             try:
-                public_file_name, saved_file_path = save_full_image(data, extension, file_code)
+                public_file_name, saved_file_path = save_full_image(
+                    data=data,
+                    extension=extension,
+                    file_code=file_code,
+                    convert_to=auto_convert
+                )
             except IOError as ex:
                 cursor.execute("delete from images where id = %s", [file_id])
                 db.commit()
